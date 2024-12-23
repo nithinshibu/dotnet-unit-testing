@@ -38,5 +38,27 @@ namespace UnitTests.Tests
             Assert.Equal("Test Content", savedItem.Content);
 
         }
+
+        //Different approach
+
+        [Fact]
+        public void TodoItemId_IncrementsEveryTimeWeAdd()
+        {
+            //arrange
+            var list = new TodoList();
+
+            //act
+            list.Add(new("Test Content 1"));
+            list.Add(new("Test Content 2"));
+
+            //assert
+            var items = list.All.ToArray();
+            Assert.Equal(1, items[0].Id);  
+            Assert.Equal(2, items[1].Id);  
+
+        }
+
+
+
     }
 }
