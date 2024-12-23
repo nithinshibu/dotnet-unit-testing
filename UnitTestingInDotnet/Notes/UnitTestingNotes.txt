@@ -1,0 +1,184 @@
+﻿Thanks to Raw Coding : https://youtu.be/e9q-ocrt4UI?si=BABzO4i5qy5o4bhz
+
+Why Should we test the code ?
+
+>When done right 
+	-saves time
+	-reliability and confidence
+	-improves codebase quality
+	-safety for future developers
+	-documentation
+
+xUnit Testing in .NET Core - User-Friendly Notes
+
+Overview of xUnit
+
+xUnit is a free, open-source, and community-focused testing framework for .NET applications. It is highly popular due to its flexibility and modern design. xUnit is designed to work well with .NET Core and provides powerful tools for unit testing.
+
+Setting Up xUnit in a .NET Core Project
+
+Create a Test Project:
+
+Use the .NET CLI to create a test project:
+
+dotnet new xunit -n YourTestProjectName
+
+Add a Reference to the Main Project:
+
+Navigate to the test project directory and add a reference to the main project:
+
+dotnet add reference ../YourMainProjectName/YourMainProjectName.csproj
+
+Install Necessary Packages (if needed):
+
+Install any additional packages (e.g., mocking frameworks like Moq):
+
+dotnet add package Moq
+
+Run Tests:
+
+Use the following command to run your tests:
+
+dotnet test
+
+Writing Tests with xUnit
+
+Basic Test Structure:
+
+Create a test class and mark it as public.
+
+Write test methods and decorate them with [Fact].
+
+Example:
+
+using Xunit;
+
+public class CalculatorTests
+{
+    [Fact]
+    public void Adding_Two_Numbers_Should_Return_Sum()
+    {
+        // Arrange
+        var calculator = new Calculator();
+
+        // Act
+        var result = calculator.Add(2, 3);
+
+        // Assert
+        Assert.Equal(5, result);
+    }
+}
+
+Parameterized Tests:
+
+Use [Theory] and [InlineData] for parameterized tests.
+
+Example:
+
+using Xunit;
+
+public class CalculatorTests
+{
+    [Theory]
+    [InlineData(2, 3, 5)]
+    [InlineData(-1, 5, 4)]
+    [InlineData(0, 0, 0)]
+    public void Adding_Two_Numbers_Should_Return_Correct_Sum(int a, int b, int expected)
+    {
+        // Arrange
+        var calculator = new Calculator();
+
+        // Act
+        var result = calculator.Add(a, b);
+
+        // Assert
+        Assert.Equal(expected, result);
+    }
+}
+
+Setup and Teardown:
+
+Use a constructor for setup and IDisposable for cleanup.
+
+Example:
+
+public class DatabaseTests : IDisposable
+{
+    private readonly Database _db;
+
+    public DatabaseTests()
+    {
+        _db = new Database(); // Setup
+    }
+
+    [Fact]
+    public void TestDatabaseConnection()
+    {
+        Assert.True(_db.IsConnected);
+    }
+
+    public void Dispose()
+    {
+        _db.Dispose(); // Cleanup
+    }
+}
+
+Key Assertions in xUnit
+
+Assert.Equal(expected, actual): Checks if values are equal.
+
+Assert.NotEqual(expected, actual): Checks if values are not equal.
+
+Assert.True(condition): Verifies the condition is true.
+
+Assert.False(condition): Verifies the condition is false.
+
+Assert.Null(object): Verifies the object is null.
+
+Assert.NotNull(object): Verifies the object is not null.
+
+Assert.Throws<TException>(Action): Verifies that a specific exception is thrown.
+
+Example:
+
+[Fact]
+public void Divide_By_Zero_Should_Throw_Exception()
+{
+    var calculator = new Calculator();
+
+    Assert.Throws<DivideByZeroException>(() => calculator.Divide(10, 0));
+}
+
+Best Practices
+
+Follow Naming Conventions:
+
+Use descriptive names for test methods (e.g., MethodName_StateUnderTest_ExpectedBehavior).
+
+Keep Tests Independent:
+
+Ensure tests do not depend on each other.
+
+Mock Dependencies:
+
+Use mocking libraries like Moq to isolate units of work.
+
+Run Tests Frequently:
+
+Integrate test runs into your CI/CD pipeline.
+
+Test Edge Cases:
+
+Cover all possible scenarios, including edge cases.
+
+Additional Tools for Testing
+
+Moq: For mocking dependencies.
+
+FluentAssertions: For more readable assertions.
+
+Coverlet: For code coverage.
+
+AutoFixture: For generating test data automatically.
+
+xUnit makes it easy to write, run, and maintain unit tests in .NET Core projects. By adhering to best practices and leveraging its powerful features, you can ensure the reliability and maintainability of your codebase.
