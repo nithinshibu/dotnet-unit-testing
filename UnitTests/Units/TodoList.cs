@@ -23,7 +23,8 @@
             var item = _todoItems.First(x => x.Id == id);
             _todoItems.Remove(item);
 
-            var completedItem = item with { Complete = true };
+           var completedItem = item with { Complete = true };
+            
             _todoItems.Add(completedItem);
         }
     }

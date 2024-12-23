@@ -35,7 +35,9 @@ namespace UnitTests.Tests
             var savedItem = Assert.Single(list.All);
 
             Assert.NotNull(savedItem);
+            Assert.Equal(1, savedItem.Id);
             Assert.Equal("Test Content", savedItem.Content);
+            Assert.False(savedItem.Complete);
 
         }
 
@@ -55,6 +57,27 @@ namespace UnitTests.Tests
             var items = list.All.ToArray();
             Assert.Equal(1, items[0].Id);  
             Assert.Equal(2, items[1].Id);  
+
+        }
+
+        [Fact]
+        public void Complete_SetsTodoItemCompleteFlagToTrue()
+        {
+            //arrange
+            var list = new TodoList();
+            list.Add(new("Test Content 1"));
+
+
+            //act
+
+            list.Complete(1);
+
+            //assert
+           var completedItem = Assert.Single(list.All);
+           Assert.NotNull(completedItem);
+           Assert.Equal(1, completedItem.Id);
+           Assert.Equal(true, completedItem?.Complete);
+
 
         }
 
